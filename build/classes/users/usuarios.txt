@@ -1,0 +1,2 @@
+Dariel;1;0;1
+Prueba;0;0;0
