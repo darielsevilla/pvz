@@ -49,6 +49,7 @@ public class AdministradorUsuario {
 
     
     public void read() {
+        usersList.clear();
         if (usersFile.exists()) {
             try {
 

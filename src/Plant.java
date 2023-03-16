@@ -155,7 +155,7 @@ public abstract class Plant extends Thread implements Serializable{
     public void run() {
 
         while (hp > 0) {
-
+            plantLabel.setIcon(normal);
             if (running == 0) {
                 try {
                     if(this instanceof CherryBomb){

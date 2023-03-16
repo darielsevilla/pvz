@@ -26,6 +26,8 @@ public class ProgressBar extends Thread implements Serializable {
     private JLabel label;
     private transient JPanel barPanel;
     private int limit;
+    private int inicial;
+    
 
     public ProgressBar() {
         super();
@@ -35,7 +37,7 @@ public class ProgressBar extends Thread implements Serializable {
         this.pb = pb;
         this.label = label;
         this.barPanel = barPanel;
-
+        inicial = label.getX();
         pb.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
     }
 
@@ -69,6 +71,7 @@ public class ProgressBar extends Thread implements Serializable {
 
     public void setLabel(JLabel label) {
         this.label = label;
+        inicial = label.getX();
     }
 
     public JPanel getBarPanel() {
@@ -85,7 +88,7 @@ public class ProgressBar extends Thread implements Serializable {
             Thread.sleep(15000);
             
             final int movimiento = pb.getWidth() / limit;
-            final int inicialPos = label.getX();
+            final int inicialPos = inicial;
             pb.setMaximum(limit);
             
             while (pb.getValue() < pb.getMaximum()) {

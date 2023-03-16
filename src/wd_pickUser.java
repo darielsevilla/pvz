@@ -33,8 +33,12 @@ import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import javax.sound.sampled.*;
 
 public class wd_pickUser extends javax.swing.JFrame {
+
+    //audio 
+    private AudioThread audio = new AudioThread();
 
     //manejo de archivos
     private AdministradorUsuario userAdmin;
@@ -167,9 +171,11 @@ public class wd_pickUser extends javax.swing.JFrame {
         cb_users = new javax.swing.JComboBox<>();
         bt_createUser = new javax.swing.JButton();
         bt_salida = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
+        exit = new javax.swing.JButton();
         lb_pickUser = new javax.swing.JLabel();
 
+        wd_menuNiveles.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wd_menuNiveles.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lb_name.setForeground(new java.awt.Color(255, 255, 255));
@@ -261,6 +267,7 @@ public class wd_pickUser extends javax.swing.JFrame {
 
         wd_menuNiveles.getContentPane().add(pn_menuNiveles, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
+        wd_nivel1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wd_nivel1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pn_victory.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -434,6 +441,7 @@ public class wd_pickUser extends javax.swing.JFrame {
 
         wd_nivel1.getContentPane().add(pn_level1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 570));
 
+        wd_level2.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wd_level2.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pn_victory2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -506,6 +514,7 @@ public class wd_pickUser extends javax.swing.JFrame {
 
         wd_level2.getContentPane().add(pn_level2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 570));
 
+        wd_level3.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         wd_level3.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pn_victoryL3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -698,19 +707,33 @@ public class wd_pickUser extends javax.swing.JFrame {
         });
         jPanel1.add(bt_salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, 130, -1));
 
-        jButton1.setBackground(new java.awt.Color(255, 0, 0));
-        jButton1.setText("Salir");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        delete.setBackground(new java.awt.Color(255, 0, 0));
+        delete.setText("Eliminar");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                deleteMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deleteActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
+        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, -1, -1));
+
+        exit.setBackground(new java.awt.Color(255, 0, 0));
+        exit.setText("Salir");
+        exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exitMouseClicked(evt);
+            }
+        });
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        jPanel1.add(exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, -1));
 
         lb_pickUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pve_560x450.jpg"))); // NOI18N
         lb_pickUser.setText("jLabel1");
@@ -726,9 +749,9 @@ public class wd_pickUser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_usersActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_exitActionPerformed
 
     private void bt_salidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salidaActionPerformed
 
@@ -785,7 +808,7 @@ public class wd_pickUser extends javax.swing.JFrame {
         } else {
             iniciarNivel1();
         }
-
+        lb_n1.setForeground(new Color(0, 255, 0));
     }//GEN-LAST:event_lb_n1MouseClicked
 
     private void lb_n3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_n3MouseClicked
@@ -796,17 +819,16 @@ public class wd_pickUser extends javax.swing.JFrame {
             wd_menuNiveles.dispose();
             iniciarNivel3();
         }
-
+        lb_n3.setForeground(new Color(0, 255, 0));
 
     }//GEN-LAST:event_lb_n3MouseClicked
 
     private void lb_n3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_n3MouseEntered
-        lb_n3.setForeground(new Color(0, 153, 0));       // TODO add your handling code here:
+        lb_n3.setForeground(new Color(0, 153, 0));     
     }//GEN-LAST:event_lb_n3MouseEntered
 
     private void lb_n3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_n3MouseExited
-        lb_n3.setForeground(new Color(0, 255, 0));        // TODO add your handling code here:
-
+        lb_n3.setForeground(new Color(0, 255, 0));      
     }//GEN-LAST:event_lb_n3MouseExited
 
     private void lb_peashooterCardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_peashooterCardMouseClicked
@@ -864,6 +886,9 @@ public class wd_pickUser extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_sunflowerCardMouseClicked
 
     private void lb_level2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_level2MouseClicked
+        for (ClickeablePlant p : casillas) {
+            p.setPlantSelected(0);
+        }
         lb_sunflowerCard.setBorder(null);
         lb_peashooterCard.setBorder(null);
         lb_CherryCard.setBorder(null);
@@ -951,6 +976,7 @@ public class wd_pickUser extends javax.swing.JFrame {
             wd_menuNiveles.dispose();
             iniciarNivel2();
         }
+        lb_n2.setForeground(new Color(0, 255, 0));
 
     }//GEN-LAST:event_lb_n2MouseClicked
 
@@ -963,6 +989,10 @@ public class wd_pickUser extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_n2MouseExited
 
     private void bt_continueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_continueMouseClicked
+        if (!audio.isAlive()) {
+            audio = new AudioThread("./src/Audio/levels.wav");
+            audio.start();
+        }
         for (Plant p : placedPlants) {
             p.resume();
         }
@@ -989,8 +1019,8 @@ public class wd_pickUser extends javax.swing.JFrame {
     }//GEN-LAST:event_lb_pausel3MouseClicked
 
     private void returnMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_returnMenu1MouseClicked
-         usuario.setN1(1);
-          userAdmin.write();
+        usuario.setN1(1);
+        userAdmin.write();
         for (Plant p : placedPlants) {
             if (p.isAlive()) {
                 p.stop();
@@ -1154,7 +1184,16 @@ public class wd_pickUser extends javax.swing.JFrame {
         casillas = admin.getCasillas();
 
         fin = admin.getOver();
-
+        
+        //audio
+        if(audio.isAlive()){
+            audio.getClip().close();
+            audio.stop();
+        }
+        
+        audio = new AudioThread("./src/Audio/levels.wav");
+        audio.start();
+        
         if (admin.getOp() == 1) {
             gamepanel = pn_level1;
             window = wd_nivel1;
@@ -1178,7 +1217,6 @@ public class wd_pickUser extends javax.swing.JFrame {
             lb_finalWave3.setVisible(false);
         }
 
-        
         for (ClickeablePlant c : casillas) {
             c.setPanel(gamepanel);
             c.setPlacedPlants(placedPlants);
@@ -1207,7 +1245,7 @@ public class wd_pickUser extends javax.swing.JFrame {
                 gamepanel.add(p.getPlantLabel(), new AbsoluteConstraints(p.getPlantLabel().getX(), p.getPlantLabel().getY(), p.getPlantLabel().getWidth(), p.getPlantLabel().getHeight()), 1);
                 gamepanel.add(p.getCasilla(), new AbsoluteConstraints(p.getCasilla().getX(), p.getCasilla().getY(), p.getCasilla().getWidth(), p.getCasilla().getHeight()), 1);
             }
-            
+
             casillas.add((ClickeablePlant) p.getCasilla());
             p.getCasilla().addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
@@ -1220,34 +1258,37 @@ public class wd_pickUser extends javax.swing.JFrame {
             z.setGamePanel(gamepanel);
             z.setPlantas(placedPlants);
             z.setZombies(spawnedZombies);
-           
-            if(z instanceof NormalZombie){
+
+            if (z instanceof NormalZombie) {
                 z.setNormal(new ImageIcon((Toolkit.getDefaultToolkit().createImage(getClass().getResource("/imagenes/zombieIdle.gif")))));
-            }else if(z instanceof FlagZombie){
+            } else if (z instanceof FlagZombie) {
                 z.setNormal(new ImageIcon((Toolkit.getDefaultToolkit().createImage(getClass().getResource("/imagenes/flagZombieIdle.gif")))));
-            }else if(z instanceof coneHead){
-                if(z.getHp() > 200){
+            } else if (z instanceof coneHead) {
+                if (z.getHp() > 200) {
                     z.setNormal(new ImageIcon(getClass().getResource("/imagenes/coneHeadIdle.gif")));
-                }else{
+                } else {
                     z.setNormal(new ImageIcon((Toolkit.getDefaultToolkit().createImage(getClass().getResource("/imagenes/zombieIdle.gif")))));
                 }
             }
             if (z.getHp() > 0) {
                 gamepanel.add(z.getZombieLabel(), new AbsoluteConstraints(z.getZombieLabel().getX(), z.getZombieLabel().getY(), z.getZombieLabel().getWidth(), z.getZombieLabel().getHeight()), 0);
             }
-            
+
         }
 
         for (Thread t : threads) {
             if (t instanceof ProgressBar) {
                 pb_level1Bar.setMaximum(((ProgressBar) t).getPb().getMaximum());
                 pb_level1Bar.setValue(((ProgressBar) t).getPb().getValue());
-                pn_levelbar.add(lb_zombieHead, new AbsoluteConstraints(((ProgressBar) t).getLabel().getX(), ((ProgressBar) t).getLabel().getY(), ((ProgressBar) t).getLabel().getWidth(), ((ProgressBar) t).getLabel().getHeight()), 0);
+                JLabel label = ((ProgressBar) t).getLabel();
+                int x = label.getX();
+                int y = label.getY();
                 ((ProgressBar) t).setPb(pb_level1Bar);
                 pb_level1Bar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
                 ((ProgressBar) t).setLabel(lb_zombieHead);
                 ((ProgressBar) t).setBarPanel(pn_levelbar);
                 ((ProgressBar) t).setZombies(spawnedZombies);
+                pn_levelbar.add(lb_zombieHead, new AbsoluteConstraints(x,y, ((ProgressBar) t).getLabel().getWidth(), ((ProgressBar) t).getLabel().getHeight()), 0);
             } else if (t instanceof Threadlvl1) {
                 ((Threadlvl1) t).setGamepanel(gamepanel);
                 ((Threadlvl1) t).setZombies(spawnedZombies);
@@ -1316,7 +1357,7 @@ public class wd_pickUser extends javax.swing.JFrame {
             }
 
         }
-
+        
         if (fin.isAlive()) {
             fin.resume();
         } else {
@@ -1326,7 +1367,7 @@ public class wd_pickUser extends javax.swing.JFrame {
         cargarGuardado.dispose();
 
     }
-    
+
     private void bt_cancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cancelarMouseClicked
         cargarGuardado.dispose();
     }//GEN-LAST:event_bt_cancelarMouseClicked
@@ -1344,16 +1385,40 @@ public class wd_pickUser extends javax.swing.JFrame {
         admin.load();
     }//GEN-LAST:event_bt_regresarMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1MouseClicked
+    private void exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitMouseClicked
+       System.exit(0);
+    }//GEN-LAST:event_exitMouseClicked
 
     private void lb_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lb_backMouseClicked
         this.setVisible(true);
         wd_menuNiveles.dispose();
+        if(audio.isAlive()){
+            audio.getClip().close();
+            audio.stop();
+        }
     }//GEN-LAST:event_lb_backMouseClicked
 
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+        userAdmin.getUsersList().remove((Usuario)cb_users.getSelectedItem());
+        userAdmin.write();
+        userAdmin.read();
+        fillusers();
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteActionPerformed
+
     public void iniciarNivel1() {
+        //audio
+
+        if (audio.isAlive()) {
+            audio.getClip().close();
+            audio.stop();
+        }
+
+        audio = new AudioThread("./src/Audio/levels.wav");
+        audio.start();
         spawnedZombies.clear();
         placedPlants.clear();
         //iniciar ventana
@@ -1422,6 +1487,13 @@ public class wd_pickUser extends javax.swing.JFrame {
     }
 
     public void iniciarNivel2() {
+        if (audio.isAlive()) {
+            audio.getClip().close();
+            audio.stop();
+        }
+
+        audio = new AudioThread("./src/Audio/levels.wav");
+        audio.start();
         //abrir la ventana
         spawnedZombies.clear();
         placedPlants.clear();
@@ -1499,6 +1571,15 @@ public class wd_pickUser extends javax.swing.JFrame {
     }
 
     public void iniciarNivel3() {
+        //audio 
+        if (audio.isAlive()) {
+            audio.getClip().close();
+            audio.stop();
+        }
+
+        audio = new AudioThread("./src/Audio/levels.wav");
+        audio.start();
+
         spawnedZombies.clear();
         placedPlants.clear();
         //iniciar ventana
@@ -1578,25 +1659,42 @@ public class wd_pickUser extends javax.swing.JFrame {
 
         this.setVisible(false);
 
+        if (audio.isAlive()) {
+            audio.getClip().close();
+            audio.stop();
+        }
+        audio = new AudioThread("./src/Audio/dave.wav");
+        audio.start();
+
         clicked = 1;
         wd_menuNiveles.pack();
-        if(usuario.getN1() == 0){
+        if (usuario.getN1() == 0) {
             lb_medal1.setVisible(false);
-        }else{
+             lb_n2.setEnabled(false);
+        } else {
             lb_medal1.setVisible(true);
+             lb_n2.setEnabled(true);
         }
-        
-        if(usuario.getN2() == 0){
+
+        if (usuario.getN2() == 0) {
             lb_medal2.setVisible(false);
-        }else{
+             lb_n3.setEnabled(false);
+           
+        } else {
             lb_medal2.setVisible(true);
+            lb_n3.setEnabled(true);
+        }
+
+        if (usuario.getN3() == 0) {
+            lb_medal3.setVisible(false);
+           
+        } else {
+            lb_medal3.setVisible(true);
+            
         }
         
-        if(usuario.getN3() == 0){
-            lb_medal3.setVisible(false);
-        }else{
-            lb_medal3.setVisible(true);
-        }
+        //niveles desbloqueados
+      
         wd_menuNiveles.setSize(910, 558);
         wd_menuNiveles.setLocationRelativeTo(null);
         wd_menuNiveles.setResizable(false);
@@ -1604,6 +1702,9 @@ public class wd_pickUser extends javax.swing.JFrame {
     }
 
     public void iniciarPauseMenu(JFrame ventana) {
+
+        audio.getClip().close();
+        audio.stop();
 
         for (Plant p : placedPlants) {
             if (p.isAlive()) {
@@ -1689,7 +1790,8 @@ public class wd_pickUser extends javax.swing.JFrame {
     private javax.swing.JDialog cargarGuardado;
     private javax.swing.JComboBox<String> cb_users;
     private javax.swing.JPanel contentPauseMenu;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton delete;
+    private javax.swing.JButton exit;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel jl_t1;
